@@ -24,10 +24,10 @@ namespace WriteLineUniqueValues
             tempList.AddRange(firstList);
             tempList.AddRange(secondList);
             var i = 0;
-            while (i < tempList.Count) // primary count
+            while (i < tempList.Count) // primary loop
             {
                 var toKill = false;
-                for (var j = i + 1; j < tempList.Count; j++) // sub count
+                for (var j = i + 1; j < tempList.Count; j++) // sub loop
                 {
                     if (tempList[j] == tempList[i])
                     {
@@ -42,7 +42,7 @@ namespace WriteLineUniqueValues
                 else
                 {
                     Console.Write($"{tempList[i]}; "); // unique value printing
-                    i++;
+                    i++; // go next primary index
                 }
             }
             Console.WriteLine();
