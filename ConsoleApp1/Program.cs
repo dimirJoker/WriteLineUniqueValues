@@ -10,41 +10,67 @@ namespace WriteLineUniqueValues
             var firstList = new List<int>();
             var secondList = new List<int>();
             var random = new Random();
-            for (var i = 0; i < 100; i++) // lists filling
+            for (var i = 0; i < 100; i++) // lists random filling
             {
                 firstList.Add(random.Next(100));
                 secondList.Add(random.Next(100));
-            } // lists filling
+            } // lists random filling
             WriteLineUniqueValues(firstList, secondList);
-            Console.WriteLine();
         }
         static void WriteLineUniqueValues(List<int> firstList, List<int> secondList)
         {
-            var tempList = new List<int>();
-            tempList.AddRange(firstList);
-            tempList.AddRange(secondList);
-            var i = 0;
-            while (i < tempList.Count) // primary loop
+            var uniqueValues = new Dictionary<int, int>();
+            var copyValues = new Dictionary<int, int>();
+            var runCounter = 0;
+            foreach (var value in firstList) // get first list values
             {
-                var toKill = false;
-                for (var j = i + 1; j < tempList.Count; j++) // sub loop
+                try
                 {
-                    if (tempList[j] == tempList[i])
+                    uniqueValues.Add(value, value);
+                }
+                catch
+                {
+                    runCounter++;
+                    try
                     {
-                        tempList.RemoveAt(j); // sub copy killing
-                        toKill = true;
+                        copyValues.Add(value, value);
+                    }
+                    catch
+                    {
+                        runCounter++;
                     }
                 }
-                if (toKill == true)
+            } // get first list values
+            foreach (var value in secondList) // get second list values
+            {
+                try
                 {
-                    tempList.RemoveAt(i); // primary copy killing
+                    uniqueValues.Add(value, value);
                 }
-                else
+                catch
                 {
-                    Console.Write($"{tempList[i]}; "); // unique value printing
-                    i++; // go next primary index
+                    runCounter++;
+                    try
+                    {
+                        copyValues.Add(value, value);
+                    }
+                    catch
+                    {
+                        runCounter++;
+                    }
                 }
+            } // get second list values
+            foreach (var value in copyValues.Keys) // double check
+            {
+                runCounter++;
+                uniqueValues.Remove(value);
+            } // double check
+            foreach (var value in uniqueValues.Keys)
+            {
+                Console.Write($"{value}; ");
             }
+            Console.WriteLine();
+            Console.WriteLine($"Run counter: {runCounter}");
             Console.WriteLine();
         }
     }
