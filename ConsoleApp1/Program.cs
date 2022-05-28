@@ -15,14 +15,15 @@ namespace WriteLineUniqueValues
                 firstList.Add(random.Next(100));
                 secondList.Add(random.Next(100));
             } // lists random filling
-            WriteLineUniqueValues(firstList, secondList);
+            WriteLineUniqueValuesByDictionary(firstList, secondList);
+            WriteLineUniqueValuesByList(firstList, secondList);
         }
-        static void WriteLineUniqueValues(List<int> firstList, List<int> secondList)
+        static void WriteLineUniqueValuesByDictionary(List<int> firstList, List<int> secondList)
         {
             var uniqueValues = new Dictionary<int, int>();
             var copyValues = new Dictionary<int, int>();
-            var runCounter = 0;
-            foreach (var value in firstList) // get first list values
+            var stepsCounter = 0;
+            foreach (var value in firstList) // getting first list values
             {
                 try
                 {
@@ -30,18 +31,18 @@ namespace WriteLineUniqueValues
                 }
                 catch
                 {
-                    runCounter++;
+                    stepsCounter++;
                     try
                     {
                         copyValues.Add(value, value);
                     }
                     catch
                     {
-                        runCounter++;
+                        stepsCounter++;
                     }
                 }
-            } // get first list values
-            foreach (var value in secondList) // get second list values
+            } // getting first list values
+            foreach (var value in secondList) // getting second list values
             {
                 try
                 {
@@ -49,28 +50,66 @@ namespace WriteLineUniqueValues
                 }
                 catch
                 {
-                    runCounter++;
+                    stepsCounter++;
                     try
                     {
                         copyValues.Add(value, value);
                     }
                     catch
                     {
-                        runCounter++;
+                        stepsCounter++;
                     }
                 }
-            } // get second list values
-            foreach (var value in copyValues.Keys) // double check
+            } // getting second list values
+            foreach (var value in copyValues.Keys) // making double check
             {
-                runCounter++;
+                stepsCounter++;
                 uniqueValues.Remove(value);
-            } // double check
+            } // making double check
+            Console.WriteLine("WriteLine unique values by dictionary:");
             foreach (var value in uniqueValues.Keys)
             {
                 Console.Write($"{value}; ");
             }
             Console.WriteLine();
-            Console.WriteLine($"Run counter: {runCounter}");
+            Console.WriteLine($"Steps: {stepsCounter}");
+            Console.WriteLine();
+        }
+        static void WriteLineUniqueValuesByList(List<int> firstList, List<int> secondList)
+        {
+            var tempList = new List<int>();
+            tempList.AddRange(firstList);
+            tempList.AddRange(secondList);
+            var stepsCounter = 0;
+            Console.WriteLine("WriteLine unique values by list:");
+            for (var i = 0; i < tempList.Count;) // primary value
+            {
+                var isUnique = true;
+                for (var j = i + 1; j < tempList.Count; ) // looking for it copies
+                {
+                    stepsCounter++;
+                    if (tempList[j] == tempList[i])
+                    {
+                        isUnique = false;
+                        tempList.RemoveAt(j); // and killing them
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
+                if (!isUnique)
+                {
+                    tempList.RemoveAt(i); // but then it killed itself because of remorse
+                }
+                else
+                {
+                    Console.Write($"{tempList[i]}; "); // or not =)
+                    i++;
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine($"Steps done: {stepsCounter}");
             Console.WriteLine();
         }
     }
