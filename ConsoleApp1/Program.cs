@@ -17,6 +17,7 @@ namespace WriteLineUniqueValues
             } // lists random filling
             WriteLineUniqueValuesByDictionary(firstList, secondList);
             WriteLineUniqueValuesByList(firstList, secondList);
+            GogasMethod(firstList, secondList);
         }
         static void WriteLineUniqueValuesByDictionary(List<int> firstList, List<int> secondList)
         {
@@ -85,7 +86,7 @@ namespace WriteLineUniqueValues
             for (var i = 0; i < tempList.Count;) // primary value
             {
                 var isUnique = true;
-                for (var j = i + 1; j < tempList.Count; ) // looking for it copies
+                for (var j = i + 1; j < tempList.Count;) // looking for it copies
                 {
                     stepsCounter++;
                     if (tempList[j] == tempList[i])
@@ -106,6 +107,30 @@ namespace WriteLineUniqueValues
                 {
                     Console.Write($"{tempList[i]}; "); // or not =)
                     i++;
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine($"Steps done: {stepsCounter}");
+            Console.WriteLine();
+        }
+        static void GogasMethod(List<int> firstList, List<int> secondList)
+        {
+            var tempList = new List<int>();
+            tempList.AddRange(firstList);
+            tempList.AddRange(secondList);
+            var stepsCounter = 0;
+            Console.WriteLine("WriteLine unique values by list:");
+            List<int> buffer = new List<int>();
+            for (var i = 0; i < tempList.Count; i++) // primary value
+            {
+                buffer.Add(tempList[i]);
+                foreach (var item in buffer)
+                {
+                    stepsCounter++;
+                    if (item == tempList[i])
+                    {
+                        tempList.RemoveAt(i);
+                    }
                 }
             }
             Console.WriteLine();
